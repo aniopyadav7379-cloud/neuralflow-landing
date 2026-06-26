@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Fonts */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Color palette */
+  --color-space: #050816;
+  --color-surface-1: #0D1224;
+  --color-surface-2: #111827;
+  --color-surface-3: #1A2235;
+  --color-white: #FFFFFF;
+  --color-soft: #CBD5E1;
+  --color-muted: #94A3B8;
+  --color-faint: #475569;
+
+  --indigo: #6366F1;
+  --indigo-light: #818CF8;
+  --cyan-glow: #00D4FF;
+  --violet: #8B5CF6;
+  --amber: #F59E0B;
+  --emerald: #10B981;
+  --rose: #EF4444;
+
+  --border-subtle: rgba(99, 102, 241, 0.15);
+  --border-glow: rgba(99, 102, 241, 0.35);
+
+  --shadow-glow-indigo: 0 0 24px rgba(99, 102, 241, 0.4);
+  --shadow-glow-cyan: 0 0 24px rgba(0, 212, 255, 0.4);
+
+  --bg-gradient: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.18) 0%, transparent 70%),
+                 radial-gradient(ellipse 50% 40% at 80% 20%, rgba(0,212,255,0.08) 0%, transparent 60%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-space);
+  color: var(--color-soft);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Utility classes ── */
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+
+.glass {
+  background: rgba(13, 18, 36, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+.shadow-glow-indigo { box-shadow: var(--shadow-glow-indigo); }
+.shadow-glow-cyan   { box-shadow: var(--shadow-glow-cyan); }
+
+.text-gradient {
+  background: linear-gradient(135deg, #fff 30%, var(--indigo-light) 70%, var(--cyan-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-indigo {
+  background: linear-gradient(135deg, var(--indigo-light) 0%, var(--cyan-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-hero {
+  background: var(--color-space);
+  background-image: var(--bg-gradient);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface-1); }
+::-webkit-scrollbar-thumb { background: var(--indigo); border-radius: 3px; }
+
+/* ── Surface classes ── */
+.surface-1 { background-color: var(--color-surface-1); }
+.surface-2 { background-color: var(--color-surface-2); }
+.surface-3 { background-color: var(--color-surface-3); }
+
+/* ── Animation: fade in reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Pricing text isolation: update only targeted nodes ── */
+.price-amount {
+  display: inline-block;
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+}
+.price-amount.updating {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* ── Bento grid ── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 1023px) {
+  .bento-grid { display: none; }
+}
+
+/* ── Accordion (mobile features) ── */
+.accordion-list {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .accordion-list { display: flex; flex-direction: column; gap: 0.75rem; }
+}
+
+.accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1), opacity 350ms ease-in-out;
+  opacity: 0;
+}
+.accordion-panel.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+/* ── Loader ── */
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--color-space);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 200ms ease-out;
+}
+#page-loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-ring {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(99,102,241,0.2);
+  border-top-color: var(--indigo);
+  border-radius: 50%;
+  animation: loader-spin 0.7s linear infinite;
+}
+
+/* ── Bento card hover ── */
+.bento-card {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+  cursor: default;
+}
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  border-color: var(--border-glow);
+}
+.bento-card.active-hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 30px rgba(99,102,241,0.2);
+}
+
+/* ── Pricing card ── */
+.pricing-card {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.pricing-card:hover {
+  transform: translateY(-6px);
+}
+.pricing-card.featured {
+  border-color: var(--indigo);
+  box-shadow: 0 0 40px rgba(99,102,241,0.25);
+}
+
+/* ── Toggle switch ── */
+.toggle-track {
+  width: 48px;
+  height: 26px;
+  background: var(--color-surface-3);
+  border-radius: 13px;
+  border: 1px solid var(--border-subtle);
+  transition: background 200ms ease-out, border-color 200ms ease-out;
+  cursor: pointer;
+  position: relative;
+}
+.toggle-track.active {
+  background: var(--indigo);
+  border-color: var(--indigo);
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 200ms ease-out;
+}
+.toggle-track.active .toggle-thumb {
+  transform: translateX(22px);
+}
+
+/* ── Grid line background ── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Stat counter ── */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stat-value {
+  animation: count-up 0.6s ease-out both;
+}
+
+/* ── Workflow step line ── */
+.step-line {
+  width: 2px;
+  background: linear-gradient(to bottom, var(--indigo), transparent);
+  flex-shrink: 0;
+}
+
+/* ── CTA gradient ── */
+.cta-gradient {
+  background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(0,212,255,0.08) 100%);
+}
+
+/* ── Responsive helpers ── */
+@media (max-width: 640px) {
+  .bento-grid { display: none; }
+  .accordion-list { display: flex; }
+}
+
+/* ── Hero badge animation ── */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Accordion toggle CSS-only transition ── */
+.accordion-chevron {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.accordion-chevron.open {
+  transform: rotate(180deg);
+}
